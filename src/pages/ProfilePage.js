@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import TableRow from "../components/TableRow/TableRow";
+import TableRow from "../components/TableRow";
 import { firestore } from "../firebase/firebase.utils";
 import { getAllTasks } from "../redux/tasks/tasks.actions";
 
@@ -27,7 +27,7 @@ const ProfilePage = () => {
 
       <div className="my-5 d-flex justify-content-between">
         <h3>Manage Tasks</h3>
-        <Link to="/add-task" className="btn btn-dark btn-sm">
+        <Link to="/add-task" className="btn btn-dark">
           Add Task
         </Link>
       </div>

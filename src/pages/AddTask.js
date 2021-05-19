@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
-import { firestore, storage } from "../firebase/firebase.utils";
+import firebase, { firestore, storage } from "../firebase/firebase.utils";
 
 const AddTask = () => {
   const [values, setValues] = useState({
@@ -56,8 +56,17 @@ const AddTask = () => {
           .then((fireBaseUrl) => {
             firestore
               .collection("tasks")
-              .add({ ...values, fileURL: fireBaseUrl })
-              .then((task) => console.log(task.id))
+              .add({ ...values, fileURL: fireBaseUrl, status: "TO DO" })
+              .then((task) => {
+                firestore
+                  .collection("tasks")
+                  .doc(task.id)
+                  .collection("history")
+                  .add({
+                    message: "Task is assigned",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                  });
+              })
               .catch((err) => console.log(err));
 
             setValues({
@@ -149,7 +158,6 @@ const AddTask = () => {
                     className="form-control-file"
                     id="file"
                     onChange={handleFile}
-                    onSelect={handleFile}
                   />
                 </div>
                 <button
