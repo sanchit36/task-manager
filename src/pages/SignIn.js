@@ -22,7 +22,7 @@ const SignIn = () => {
   return (
     <Fragment>
       <div className="row">
-        <div className="col-md-8 mx-auto">
+        <div className="col-lg-6 col-md-8 mx-auto">
           <div className="card">
             <div className="card-body">
               <div className="card-title">

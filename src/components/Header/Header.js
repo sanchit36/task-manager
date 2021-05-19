@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div className="container">
+        <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             Task Manager
           </Link>
