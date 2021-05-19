@@ -12,6 +12,7 @@ const AddTask = () => {
   });
   const [file, setFile] = useState("");
   const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const usersSnapshot = firestore.collection("users").get();
@@ -22,16 +23,12 @@ const AddTask = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(values);
-
-    if (file === "") {
-      console.error(`not an image, the image file is a ${typeof imageAsFile}`);
-      return;
-    }
+    if (file === "") return;
     if (!values.title) return;
     if (!values.description) return;
     if (!values.user) return;
 
+    setLoading(true);
     console.log("start of upload");
 
     const uploadTask = storage.ref(`/files/${file.name}`).put(file);
@@ -58,6 +55,7 @@ const AddTask = () => {
               .collection("tasks")
               .add({ ...values, fileURL: fireBaseUrl, status: "TO DO" })
               .then((task) => {
+                setLoading(false);
                 firestore
                   .collection("tasks")
                   .doc(task.id)
@@ -67,7 +65,10 @@ const AddTask = () => {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                   });
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                setLoading(false);
+                console.log(err);
+              });
 
             setValues({
               title: "",
@@ -161,10 +162,11 @@ const AddTask = () => {
                   />
                 </div>
                 <button
+                  disabled={loading}
                   type="submit"
                   className="mt-4 btn btn-primary btn-block"
                 >
-                  SUBMIT
+                  {loading ? "SUBMITING..." : "SUBMIT"}
                 </button>
               </form>
             </div>
