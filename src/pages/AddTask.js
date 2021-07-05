@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
+import { useHistory } from "react-router-dom";
 import firebase, { firestore, storage } from "../firebase/firebase.utils";
 
 const AddTask = () => {
+  const history = useHistory();
   const [values, setValues] = useState({
     title: "",
     description: "",
@@ -29,7 +31,6 @@ const AddTask = () => {
     if (!values.user) return;
 
     setLoading(true);
-    console.log("start of upload");
 
     const uploadTask = storage.ref(`/files/${file.name}`).put(file);
     //initiates the firebase side uploading
@@ -56,6 +57,7 @@ const AddTask = () => {
               .add({ ...values, fileURL: fireBaseUrl, status: "TO DO" })
               .then((task) => {
                 setLoading(false);
+                history.push(`/tasks/${task.id}`);
                 firestore
                   .collection("tasks")
                   .doc(task.id)

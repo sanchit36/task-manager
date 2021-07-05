@@ -43,11 +43,15 @@ const ProfilePage = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks?.length
-              ? tasks?.map((task, index) => (
-                  <TableRow key={task.id} task={task} index={index + 1} />
-                ))
-              : "NO TASK"}
+            {tasks?.length ? (
+              tasks?.map((task, index) => (
+                <TableRow key={task.id} task={task} index={index + 1} />
+              ))
+            ) : (
+              <tr>
+                <td>NO TASK</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

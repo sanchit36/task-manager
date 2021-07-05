@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { useParams } from "react-router";
+import { useHistory } from "react-router-dom";
 import firebase, { firestore } from "../firebase/firebase.utils";
 
 const EditTask = () => {
+  const history = useHistory();
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
@@ -26,6 +28,7 @@ const EditTask = () => {
         .then(() => {
           setLoading(false);
           setMsg("Updated Successfully");
+          history.push(`/tasks/${taskID}`);
           firestore
             .collection("tasks")
             .doc(taskID)
